@@ -214,7 +214,8 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
       const res = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: PROGRAMME.razorpay.amount }),
+        // body: JSON.stringify({ amount: PROGRAMME.razorpay.amount }),
+        body: JSON.stringify({ amount: 1 }),
       });
       if (!res.ok) throw new Error("Order creation failed");
       order = await res.json();
@@ -225,8 +226,8 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
 
     // 2. Open Razorpay checkout
     const options: Record<string, unknown> = {
-      // key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      key: "rzp_test_Ss2NFtpJFLRAiw",
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      // key: "rzp_test_Ss2NFtpJFLRAiw",
       amount: order.amount,
       currency: order.currency,
       name: fv.name || "Participant",
