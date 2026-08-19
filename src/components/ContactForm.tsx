@@ -38,7 +38,7 @@ declare global {
   interface Window {
     Razorpay: new (options: Record<string, unknown>) => {
       open: () => void;
-      on: (event: string, handler: () => void) => void;
+      on: (event: string, handler: (response?: unknown) => void) => void;
     };
   }
 }
@@ -292,9 +292,17 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
     };
 
     const razor = new window.Razorpay(options);
-    razor.on("payment.failed", () => {
-      router.replace("/error");
+
+    // NOTE: For UPI QR payments, 'payment.failed' can fire before actual
+    // payment confirmation arrives. Add a short delay so the handler() has
+    // a chance to run first if payment actually succeeded.
+    razor.on("payment.failed", (failedResponse: unknown) => {
+      console.warn("Razorpay payment.failed:", failedResponse);
+      setTimeout(() => {
+        router.replace("/error");
+      }, 2000);
     });
+
     razor.open();
   }
 
