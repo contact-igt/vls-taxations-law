@@ -226,8 +226,8 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
 
     // 2. Open Razorpay checkout
     const options: Record<string, unknown> = {
-      // key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      key: "rzp_test_Ss2NFtpJFLRAiw",
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      // key: "rzp_test_Ss2NFtpJFLRAiw",
       amount: order.amount,
       currency: order.currency,
       name: fv.name || "Participant",
