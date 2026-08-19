@@ -19,19 +19,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-vls-border bg-white/95 backdrop-blur-sm">
       <Container className="flex h-[85px] items-center justify-between">
-        <Link href="#top" className="flex items-center gap-3">
+        <Link href="#top" className="flex items-center">
           <Image
             src="/assets/vls/brand/vls-logo.png"
             alt="VLS Law Academy"
-            width={40}
-            height={40}
+            width={60}
+            height={60}
             priority
           />
-          <span className="font-serif text-[15px] font-medium leading-tight text-vls-black">
-            VLS Law
-            <br />
-            Academy
-          </span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">

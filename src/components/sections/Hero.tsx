@@ -1,6 +1,6 @@
 import { PrimaryLink, SecondaryLink } from "../ui/Button";
 import { Container } from "../ui/Container";
-import { WaitlistForm } from "../WaitlistForm";
+import { ContactForm } from "../ContactForm";
 
 export function Hero() {
   return (
@@ -78,12 +78,7 @@ export function Hero() {
             English.
           </p>
           <div className="mt-6">
-            <WaitlistForm
-              formId="hero"
-              submitLabel="Reserve Your Seat — ₹499"
-              successHeading="Your seat is reserved."
-              successBody="We'll send joining details for the 28 August 2026 live session shortly."
-            />
+            <ContactForm />
           </div>
         </div>
       </Container>

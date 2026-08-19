@@ -1,6 +1,6 @@
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
-import { WaitlistForm } from "../WaitlistForm";
+import { ContactForm } from "../ContactForm";
 import { DisputeJourneyVisual } from "../ui/DisputeJourneyVisual";
 
 export function FinalCta() {
@@ -24,7 +24,7 @@ export function FinalCta() {
         </Reveal>
 
         <Reveal delayMs={100} className="bg-white p-7 sm:p-8">
-          <WaitlistForm formId="final" />
+          <ContactForm />
         </Reveal>
       </Container>
     </section>
