@@ -11,6 +11,7 @@ interface PaymentDetails {
   mobile?: string;
   amount?: number;
   razorpay_payment_id?: string;
+  payment_status?: string;
 }
 
 interface ResponsePageProps {
@@ -40,6 +41,8 @@ export function ResponsePage({ response }: ResponsePageProps) {
 
   if (!ready) return null;
 
+  const isWaitlist = paymentDetails?.payment_status === "waitlist";
+
   return (
     <main className="flex min-h-[70vh] items-center justify-center bg-vls-off-white px-4 py-16">
       <div className="w-full max-w-lg text-center">
@@ -51,7 +54,13 @@ export function ResponsePage({ response }: ResponsePageProps) {
                 ? "/assets/Response/success.png"
                 : "/assets/Response/error.png"
             }
-            alt={isSuccess ? "Payment successful" : "Payment failed"}
+            alt={
+              isSuccess
+                ? isWaitlist
+                  ? "Added to waitlist"
+                  : "Payment successful"
+                : "Payment failed"
+            }
             width={120}
             height={120}
             priority
@@ -65,18 +74,24 @@ export function ResponsePage({ response }: ResponsePageProps) {
             isSuccess ? "text-[#28a745]" : "text-vls-red"
           }`}
         >
-          {isSuccess ? "Payment Successful" : "Payment Failed"}
+          {isSuccess
+            ? isWaitlist
+              ? "You're on the Waitlist!"
+              : "Payment Successful"
+            : "Payment Failed"}
         </h1>
 
         {/* Sub-message */}
         <p className="mt-3 text-[15px] leading-relaxed text-vls-muted">
           {isSuccess
-            ? "Thank you for registering! Your seat for the Taxation Laws & Practice session on 28 August 2026 has been confirmed. You will receive joining details on WhatsApp and email shortly."
+            ? isWaitlist
+              ? "Thank you! Your details have been added to the waitlist for Taxation Laws & Practice. We will notify you via WhatsApp and email when the next session dates are announced."
+              : "Thank you for registering! Your seat for the Taxation Laws & Practice session on 28 August 2026 has been confirmed. You will receive joining details on WhatsApp and email shortly."
             : "We could not complete your payment. Please try again or contact our support team."}
         </p>
 
-        {/* Transaction summary (success only, when PaymentDetails exist) */}
-        {isSuccess && paymentDetails && (
+        {/* Transaction summary (paid success only) */}
+        {isSuccess && paymentDetails && !isWaitlist && (
           <div className="mt-8 border border-vls-border bg-white p-6 text-left">
             <p className="eyebrow mb-4">Transaction Summary</p>
             <dl className="divide-y divide-vls-border text-[14px]">

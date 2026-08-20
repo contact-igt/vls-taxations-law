@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { Container } from "./ui/Container";
 import { HeaderCta } from "./ui/Button";
+import { PROGRAMME } from "@/lib/constants";
+import { isRegistrationOpen } from "@/lib/programStatus";
 
 const NAV_LINKS = [
   { href: "#why-this-course", label: "Why this course" },
@@ -15,6 +17,7 @@ const NAV_LINKS = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const registrationOpen = isRegistrationOpen(PROGRAMME);
 
   return (
     <header className="sticky top-0 z-50 border-b border-vls-border bg-white/95 backdrop-blur-sm">
@@ -42,7 +45,9 @@ export function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <HeaderCta href="#waitlist">Reserve Your Seat</HeaderCta>
+          <HeaderCta href="#waitlist">
+            {registrationOpen ? "Reserve Your Seat" : "Join Waitlist"}
+          </HeaderCta>
         </div>
 
         <button
@@ -93,7 +98,7 @@ export function Header() {
               onClick={() => setOpen(false)}
               className="mt-4 flex h-12 items-center justify-center bg-vls-black text-[14px] font-bold text-vls-white"
             >
-              Reserve Your Seat
+              {registrationOpen ? "Reserve Your Seat" : "Join Waitlist"}
             </Link>
           </Container>
         </nav>

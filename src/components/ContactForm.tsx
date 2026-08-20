@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PROGRAMME, GOOGLE_SHEET_URL } from "@/lib/constants";
+import { isRegistrationOpen } from "@/lib/programStatus";
 import { getUTM } from "@/lib/useUTMSource";
+import { submitTaxationRegistration } from "@/lib/submitTaxationRegistration";
 
 /* -------------------------------------------------------------------------- */
 /*  Types                                                                      */
@@ -190,13 +192,65 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
     setErrors(validate(values));
   }
 
-  /* ---- Submit → open instruction popup ---- */
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const registrationOpen = isRegistrationOpen(PROGRAMME);
+
+  /* ---- Submit waitlist flow (skips Razorpay) ---- */
+  async function submitWaitlist(fv: FormValues) {
+    setProcessing(true);
+
+    const apiPayload = {
+      name: fv.name || "",
+      email: fv.email,
+      mobile: `+91${fv.mobile}`,
+      amount: 0,
+      programm_date: "TBA",
+      razorpay_order_id: "",
+      razorpay_payment_id: "",
+      razorpay_signature: "",
+      payment_status: "waitlist",
+      captured: false,
+      page_name: PROGRAMME.pageName,
+      ip_address: ipAddress,
+      utm_source: getUTM("utm_source"),
+      utm_medium: getUTM("utm_medium"),
+      utm_campaign: getUTM("utm_campaign"),
+      utm_term: getUTM("utm_term"),
+      utm_content: getUTM("utm_content"),
+    };
+
+    try {
+      await submitTaxationRegistration(apiPayload);
+    } catch (err) {
+      console.error("Taxation Law waitlist backend registration failed:", err);
+    }
+
+    const params = new URLSearchParams();
+    Object.entries(apiPayload).forEach(([k, v]) =>
+      params.append(k, String(v ?? ""))
+    );
+    await submitToGoogleSheet(params);
+
+    try {
+      localStorage.setItem("PaymentDetails", JSON.stringify(apiPayload));
+    } catch {
+      /* storage unavailable */
+    }
+
+    window.location.href = "/thank-you";
+  }
+
+  /* ---- Submit → open instruction popup or submit waitlist ---- */
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setTouched({ name: true, email: true, mobile: true });
     const errs = validate(values);
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
+
+    if (!registrationOpen) {
+      await submitWaitlist(values);
+      return;
+    }
 
     confirmedValues.current = values;
     setAgree(false);
@@ -259,7 +313,7 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
           razorpay_payment_id: response.razorpay_payment_id || "",
           razorpay_signature: response.razorpay_signature || "",
           payment_status: "paid",
-          captured: response.captured || "",
+          captured: response.captured ?? false,
           page_name: PROGRAMME.pageName,
           ip_address: ipAddress,
           utm_source: getUTM("utm_source"),
@@ -269,17 +323,28 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
           utm_content: getUTM("utm_content"),
         };
 
-        // 4. Send WhatsApp
+        // 4. Register with the Invictus admin backend (best-effort — payment
+        // has already been captured by Razorpay at this point, so a
+        // transient backend failure here must never block the customer's
+        // confirmation; Google Sheet below remains the existing fallback
+        // record).
+        try {
+          await submitTaxationRegistration(apiPayload);
+        } catch (err) {
+          console.error("Taxation Law backend registration failed:", err);
+        }
+
+        // 5. Send WhatsApp
         await sendWhatsApp(`91${fv.mobile}`, fv.name, PROGRAMME.razorpay.amount);
 
-        // 5. Send to Google Sheet
+        // 6. Send to Google Sheet
         const params = new URLSearchParams();
         Object.entries(apiPayload).forEach(([k, v]) =>
           params.append(k, String(v ?? ""))
         );
         await submitToGoogleSheet(params);
 
-        // 6. Store payment details for response page
+        // 7. Store payment details for response page
         try {
           localStorage.setItem("PaymentDetails", JSON.stringify(apiPayload));
         } catch {
@@ -375,7 +440,9 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
           type="submit"
           className="mt-2 h-12 bg-vls-red text-[14px] font-bold text-vls-white transition-colors duration-150 ease-out hover:bg-vls-red-dark"
         >
-          Reserve Your Seat — ₹499
+          {registrationOpen
+            ? `Reserve Your Seat — ₹${PROGRAMME.fee || PROGRAMME.razorpay.amount}`
+            : "Join Waitlist"}
         </button>
       </form>
 
@@ -445,7 +512,9 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
           <div className="flex flex-col items-center gap-4 py-4 text-center">
             <Spinner />
             <p className="font-serif text-[18px] font-medium text-vls-black">
-              Processing your registration…
+              {registrationOpen
+                ? "Processing your registration…"
+                : "Submitting your details…"}
             </p>
             <p className="text-[13px] text-vls-muted">
               Please do not close or refresh this page.

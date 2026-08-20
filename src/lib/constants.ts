@@ -4,6 +4,11 @@
  */
 
 export const PROGRAMME = {
+  /** "announced" = registration open (if classStartAt is future), "tba" = waitlist mode */
+  sessionStatus: "announced" as "announced" | "tba",
+  /** ISO 8601 timestamp with timezone — key field that controls waitlist switch */
+  classStartAt: "2026-08-28T18:00:00+05:30",
+  fee: 499,
   razorpay: {
     title: "Taxation Laws & Practice",
     amount: 499, // in INR (rupees)
