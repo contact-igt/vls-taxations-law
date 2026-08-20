@@ -11,14 +11,14 @@ export function Faculty() {
           <div className="relative mx-auto w-[220px] md:w-full">
             <div
               aria-hidden="true"
-              className="absolute inset-x-6 inset-y-8 -z-10 bg-vls-red"
+              className="absolute inset-x-6 top-8 bottom-0 -z-10 bg-vls-red"
             />
             <Image
               src="/assets/vls/faculty/dr-sivakumar.png"
               alt="Dr. Sivakumar Sivaprakasam"
               width={720}
               height={900}
-              className="w-full"
+              className="block w-full"
               sizes="(min-width: 768px) 280px, 220px"
             />
           </div>

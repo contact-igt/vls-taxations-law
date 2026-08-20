@@ -5,6 +5,8 @@ import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { TestimonialCard } from "../ui/TestimonialCard";
 import { VideoModal } from "../ui/VideoModal";
+import { PROGRAMME } from "@/lib/constants";
+import { isRegistrationOpen } from "@/lib/programStatus";
 
 /* -------------------------------------------------------------------------- */
 /*  Testimonial data                                                           */
@@ -196,7 +198,9 @@ export function Testimonials() {
                 href="#waitlist"
                 className="inline-flex h-12 items-center justify-center gap-2 bg-vls-red px-8 text-[14px] font-bold tracking-tight text-vls-white transition-colors duration-150 hover:bg-vls-red-dark"
               >
-                Reserve Your Seat — ₹499
+                {isRegistrationOpen(PROGRAMME)
+                  ? `Reserve Your Seat — ₹${PROGRAMME.fee || PROGRAMME.razorpay.amount}`
+                  : "Join Waitlist"}
               </a>
             </div>
           </Reveal>

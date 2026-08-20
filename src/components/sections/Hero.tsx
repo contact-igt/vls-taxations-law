@@ -1,8 +1,12 @@
 import { PrimaryLink, SecondaryLink } from "../ui/Button";
 import { Container } from "../ui/Container";
 import { ContactForm } from "../ContactForm";
+import { PROGRAMME } from "@/lib/constants";
+import { isRegistrationOpen } from "@/lib/programStatus";
 
 export function Hero() {
+  const registrationOpen = isRegistrationOpen(PROGRAMME);
+
   return (
     <section id="top" className="relative overflow-hidden bg-vls-near-black pb-16 pt-14 md:pb-20">
       <div
@@ -48,14 +52,22 @@ export function Hero() {
           </p>
 
           <ul className="mt-9 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 sm:grid-cols-4">
-            <InfoChip label="Friday" value="28 Aug 2026" />
-            <InfoChip label="3-Hour Live Class" value="6 – 9 PM" />
+            <InfoChip
+              label={registrationOpen ? "Friday" : "Next Live Session"}
+              value={registrationOpen ? "28 Aug 2026" : "TBA"}
+            />
+            <InfoChip
+              label={registrationOpen ? "3-Hour Live Class" : "Duration"}
+              value={registrationOpen ? "6 – 9 PM" : "3 Hours"}
+            />
             <InfoChip label="Join from anywhere" value="Online" />
             <InfoChip label="Bilingual Session" value="Tamil + English" />
           </ul>
 
           <div className="mt-8 flex flex-wrap items-center gap-6">
-            <PrimaryLink href="#waitlist">Reserve Your Seat — ₹499</PrimaryLink>
+            <PrimaryLink href="#waitlist">
+              {registrationOpen ? `Reserve Your Seat — ₹${PROGRAMME.fee || PROGRAMME.razorpay.amount}` : "Join Waitlist"}
+            </PrimaryLink>
             <SecondaryLink href="#curriculum" dark>
               Explore the Curriculum ↓
             </SecondaryLink>
@@ -66,16 +78,21 @@ export function Hero() {
           <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-vls-red to-vls-gold" />
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="eyebrow">Registration Open</p>
+              <p className="eyebrow">{registrationOpen ? "Registration Open" : "Waitlist Open"}</p>
               <h2 className="mt-2 font-serif text-[24px] font-medium text-vls-black">
-                Reserve Your Seat
+                {registrationOpen ? "Reserve Your Seat" : "Join the Waitlist"}
               </h2>
             </div>
-            <p className="shrink-0 font-serif text-[28px] font-medium text-vls-red">₹499</p>
+            {registrationOpen && (
+              <p className="shrink-0 font-serif text-[28px] font-medium text-vls-red">
+                ₹{PROGRAMME.fee || PROGRAMME.razorpay.amount}
+              </p>
+            )}
           </div>
           <p className="mt-2 text-[14px] leading-relaxed text-vls-muted">
-            Taxation Laws &amp; Practice · 28 August 2026 · 6 PM – 9 PM · Online · Tamil &amp;
-            English.
+            {registrationOpen
+              ? "Taxation Laws & Practice · 28 August 2026 · 6 PM – 9 PM · Online · Tamil & English."
+              : "Taxation Laws & Practice · Next live session — date and time will be announced shortly."}
           </p>
           <div className="mt-6">
             <ContactForm />
