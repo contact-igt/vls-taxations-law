@@ -280,8 +280,8 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
 
     // 2. Open Razorpay checkout
     const options: Record<string, unknown> = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      // key: "rzp_test_Ss2NFtpJFLRAiw",
+      // key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      key: "rzp_test_Ss2NFtpJFLRAiw",
       amount: order.amount,
       currency: order.currency,
       name: fv.name || "Participant",
@@ -313,7 +313,7 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
           razorpay_payment_id: response.razorpay_payment_id || "",
           razorpay_signature: response.razorpay_signature || "",
           payment_status: "paid",
-          captured: response.captured ?? false,
+          captured: true,
           page_name: PROGRAMME.pageName,
           ip_address: ipAddress,
           utm_source: getUTM("utm_source"),
