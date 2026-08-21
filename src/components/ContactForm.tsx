@@ -268,8 +268,8 @@ export function ContactForm({ ipAddress: ipAddressProp = "" }: ContactFormProps)
       const res = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({ amount: PROGRAMME.razorpay.amount }),
-        body: JSON.stringify({ amount: 1 }),
+        body: JSON.stringify({ amount: PROGRAMME.razorpay.amount }),
+        // body: JSON.stringify({ amount: 1 }),
       });
       if (!res.ok) throw new Error("Order creation failed");
       order = await res.json();
