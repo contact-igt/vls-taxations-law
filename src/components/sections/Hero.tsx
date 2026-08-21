@@ -60,7 +60,7 @@ export function Hero() {
               label={registrationOpen ? "3-Hour Live Class" : "Duration"}
               value={registrationOpen ? "6 – 9 PM" : "3 Hours"}
             />
-            <InfoChip label="Join from anywhere" value="Online" />
+            <InfoChip label="Choose how you attend" value="Offline & Online" />
             <InfoChip label="Bilingual Session" value="Tamil + English" />
           </ul>
 
@@ -91,7 +91,7 @@ export function Hero() {
           </div>
           <p className="mt-2 text-[14px] leading-relaxed text-vls-muted">
             {registrationOpen
-              ? "Taxation Laws & Practice · 28 August 2026 · 6 PM – 9 PM · Online · Tamil & English."
+              ? "Taxation Laws & Practice · 28 August 2026 · 6 PM – 9 PM · Offline & Online · Tamil & English."
               : "Taxation Laws & Practice · Next live session — date and time will be announced shortly."}
           </p>
           <div className="mt-6">

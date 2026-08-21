@@ -19,8 +19,8 @@ export const PROGRAMME = {
   schedule: "Friday, August 28, 2026 6:00 PM – 9:00 PM IST",
   /** Name shown in the WhatsApp template */
   programmName: "3-hour Taxation Laws & Practice masterclass",
-  /** Platform used for the session */
-  platform: "Google Meet",
+  /** Venues used for the session */
+  platform: "VLS Law Academy & Google Meet",
   /** Day the joining link will be sent, referenced in WhatsApp message */
   linkDate: "Thursday, 27 August",
   /** Slug sent to Google Sheet for filtering */

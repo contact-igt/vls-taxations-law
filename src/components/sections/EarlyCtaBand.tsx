@@ -16,7 +16,7 @@ export function EarlyCtaBand() {
           <p className="mt-1.5 text-[14px] text-[#c8c8c4]">
             {registrationOpen ? (
               <>
-                28 August 2026 · 6 PM–9 PM · Online &nbsp;·&nbsp; Tamil + English · 3 Hours &nbsp;·&nbsp;
+                28 August 2026 · 6 PM–9 PM · Offline &amp; Online &nbsp;·&nbsp; Tamil + English · 3 Hours &nbsp;·&nbsp;
                 <span className="font-semibold text-white">₹{PROGRAMME.fee || PROGRAMME.razorpay.amount}</span>
               </>
             ) : (
