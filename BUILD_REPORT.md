@@ -2,7 +2,7 @@
 
 ## M5A — ABOVE-THE-FOLD CONVERSION
 Status: **PASS**
-Course details updated: Yes — 28 August 2026 (Friday), 6:00 PM–9:00 PM, 3 Hours, Online,
+Course details updated: Yes — 28 August 2026 (Friday), 6:00 PM–9:00 PM, 3 Hours, Offline & Online,
 Bilingual (Tamil & English), ₹499, now live in Hero, header CTA, `EarlyCtaBand`, FAQ, and
 `CONTENT_LOCK.md`. All "Announcing soon"/"To be announced" placeholders removed and now
 verifier-enforced (`scripts/verify.sh` fails if either reappears).

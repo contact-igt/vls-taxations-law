@@ -85,7 +85,7 @@ mentoring since 2003 across law, economy and public administration for UPSC and 
 Do not invent taxation-specific practice years, case counts, or tribunal statistics.
 
 ## Batch metadata (approved 2026-08-19, M5A)
-Date: 28 August 2026 (Friday) · Time: 6:00 PM – 9:00 PM · Duration: 3 Hours · Mode: Online ·
+Date: 28 August 2026 (Friday) · Time: 6:00 PM – 9:00 PM · Duration: 3 Hours · Mode: Offline & Online ·
 Language: Bilingual — Tamil & English · Fee: ₹499
 
 ## Footer / institutional facts (from aiforadvocates.vlslawacademy.com)
