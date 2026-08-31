@@ -21,6 +21,8 @@ import { WhyVls } from "@/components/sections/WhyVls";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <>
