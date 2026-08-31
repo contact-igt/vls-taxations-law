@@ -1,6 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
+import { PROGRAMME } from "@/lib/constants";
+import { isRegistrationOpen } from "@/lib/programStatus";
 
 const FAQS = [
   {
@@ -37,7 +39,9 @@ const FAQS = [
   },
   {
     q: "What are the dates and fees?",
-    a: "The live session is on 28 August 2026, 6 PM – 9 PM (3 hours), conducted both offline and online in Tamil and English. The fee is ₹499. Reserve your seat above to confirm your place.",
+    a: isRegistrationOpen(PROGRAMME)
+      ? "The live session is on 28 August 2026, 6 PM – 9 PM (3 hours), conducted both offline and online in Tamil and English. The fee is ₹499. Reserve your seat above to confirm your place."
+      : "The next live session date and fee will be announced shortly. Join the waitlist to be notified when registration opens.",
   },
 ];
 
